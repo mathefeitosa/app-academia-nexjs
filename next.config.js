@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ["randomuser.me"],
+    domains: ["randomuser.me", "platform-lookaside.fbsbx.com"],
   },
 };
