@@ -1,104 +1,27 @@
-const user = {
-  name: "Matheus Feitosa",
-  image: "https://randomuser.me/api/portraits/men/61.jpg",
-};
-const workouts = [
-  {
-    id: 0,
-    letter: "A",
-    exercises: [
-      {
-        number: 1,
-        name: "Supino Reto",
-        weight: 30, //in kilograms
-        reps: 10,
-        sets: 3,
-        restInterval: 45, //in seconds
-      },
-      {
-        number: 2,
-        name: "Leg Press 45º",
-        weight: 30, //in kilograms
-        reps: 10,
-        sets: 3,
-        restInterval: 45, //in seconds
-      },
-    ],
-  },
-  {
-    id: 1,
-    letter: "B",
-    exercises: [
-      {
-        number: 1,
-        name: "Leg Press 45º",
-        weight: 30, //in kilograms
-        reps: 10,
-        sets: 3,
-        restInterval: 45, //in seconds
-      },
-    ],
-  },
-  {
-    id: 2,
-    letter: "C",
-    exercises: [
-      {
-        number: 1,
-        name: "Supino Reto",
-        weight: 30, //in kilograms
-        reps: 10,
-        sets: 3,
-        restInterval: 45, //in seconds
-      },
-      {
-        number: 2,
-        name: "Leg Press 45º",
-        weight: 30, //in kilograms
-        reps: 10,
-        sets: 3,
-        restInterval: 45, //in seconds
-      },
-    ],
-  },
-  {
-    id: 3,
-    letter: "D",
-    exercises: [
-      {
-        number: 1,
-        name: "Supino Reto",
-        weight: 30, //in kilograms
-        reps: 10,
-        sets: 3,
-        restInterval: 45, //in seconds
-      },
-      {
-        number: 2,
-        name: "Leg Press 45º",
-        weight: 30, //in kilograms
-        reps: 10,
-        sets: 3,
-        restInterval: 45, //in seconds
-      },
-    ],
-  },
-];
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getSession } from "next-auth/client";
 import UserBox from "./components/UserBox";
 import WorkoutSelector from "./components/WorkoutSelector";
 import WorkoutViewer from "./components/WorkoutViewer";
 import Login from "./components/Login";
+import WorkoutAdder from "./components/WorkoutAdder";
+import { db } from "../firebase";
 
 export default function Home({ session }) {
   if (!session) return <Login />;
 
-  const [selectedWorkout, setSelectedWorkout] = useState(workouts[0]);
-  function selectWorkout(id) {
-    setSelectedWorkout(workouts[id]);
-  }
+  const [workouts, setWorkouts] = useState([]);
+  const [selectedWorkout, setselectedWorkout] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await db.collection("workouts").get();
+      setWorkouts(data.docs.map((doc) => doc.data()));
+    };
+    fetchData();
+    setselectedWorkout(workouts[0]);
+    console.log(selectedWorkout);
+  }, []);
 
   return (
     <div className="bg-white justify-center flex">
@@ -109,18 +32,22 @@ export default function Home({ session }) {
               App Academia
             </div>
           </div>
-          <div className="-mt-8 flex flex-1 shadow-md bg-gray-200 rounded-tr-3xl rounded-tl-3xl pb-5">
-            <UserBox user={user} />
-            <WorkoutSelector
-              selectWorkout={selectWorkout}
-              workouts={workouts}
-            />
+          <div className="-mt-8 flex-1 shadow-md bg-gray-200 rounded-tr-3xl rounded-tl-3xl pb-5">
+            <div className="flex">
+              <UserBox />
+              <WorkoutSelector
+                setselectedWorkout={setselectedWorkout}
+                workouts={workouts}
+              />
+            </div>
+            <div className="pb-10 flex justify-center">
+              <WorkoutAdder />
+            </div>
           </div>
-          <div className="mb-3 border border-black"></div>
         </div>
 
         <div className="-mt-8 shadow-md bg-gray-300 rounded-br-lg rounded-bl-lg border-t-2 rounded-tr-3xl rounded-tl-3xl pb-1">
-          <WorkoutViewer workout={selectedWorkout} />
+          <WorkoutViewer selectedWorkout={selectedWorkout} />
         </div>
       </div>
     </div>

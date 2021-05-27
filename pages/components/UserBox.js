@@ -1,7 +1,7 @@
 import { signOut, useSession } from "next-auth/client";
 import Image from "next/image";
 
-function UserBox({ user }) {
+function UserBox() {
   const [session] = useSession();
 
   return (
