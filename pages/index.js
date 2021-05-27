@@ -18,7 +18,7 @@ export default function Home({ session }) {
       const data = await db.collection("workouts").get();
       setWorkouts(data.docs.map((doc) => doc.data()));
     };
-    fetchData();
+    fetchData()?.setselectedWorkout;
     setselectedWorkout(workouts[0]);
     console.log(selectedWorkout);
   }, []);
