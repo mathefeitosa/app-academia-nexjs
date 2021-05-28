@@ -11,6 +11,7 @@ function WorkoutSelector(props) {
               key={workout.id}
               workout={workout}
               setSelectedWorkoutID={props.setSelectedWorkoutID}
+              exerciseChangeHandler={props.exerciseChangeHandler}
             />
           </div>
         ))}

@@ -2,14 +2,21 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 
-function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
-  var editMode = false;
-
-  const setEditMode = () => {
-    editMode = !editMode;
+function ExerciseInput({
+  id,
+  name,
+  number,
+  weight,
+  reps,
+  sets,
+  restInterval,
+  onChange,
+}) {
+  //Logic to handle changes
+  const [editMode, setEditMode] = useState(false);
+  const editChangeHandle = (value) => {
+    setEditMode(value);
   };
-
-  const onChangeHandler = () => {};
 
   return (
     <div className="flex justify-center text-white transform ease-in hover:scale-105  transition duration-100">
@@ -17,13 +24,14 @@ function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
         <div className="p-2 bg-gray-900 rounded-tl-lg rounded-bl-lg text-2xl font-bold">
           <div className={`${editMode ? "" : "hidden"}`}>
             <input
+              id={id}
               className="w-12 text-black"
               type="number"
               min="1"
               name="number"
               placeholder={number}
               value={number}
-              onChange={onChangeHandler}
+              onChange={onChange}
             />
           </div>
           <div className={`${!editMode ? "" : "hidden"}`}>{number}</div>
@@ -32,12 +40,13 @@ function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
           <div className="p-2 flex-1">
             <div className={`${editMode ? "" : "hidden"}`}>
               <input
+                id={id}
                 className="text-lg font-bold flex-1"
                 type="text"
                 placeholder={name}
                 value={name}
                 name="name"
-                onChange={onChangeHandler}
+                onChange={onChange}
               />
             </div>
             <div
@@ -50,12 +59,13 @@ function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
             <div className={`${editMode ? "" : "hidden"}`}>
               Peso:{" "}
               <input
+                id={id}
                 className="w-20 text-center"
                 type="number"
                 placeholder={weight}
                 value={weight}
                 name="weight"
-                onChange={onChangeHandler}
+                onChange={onChange}
               />{" "}
               kg
             </div>
@@ -65,12 +75,13 @@ function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
             <div className={`${editMode ? "" : "hidden"}`}>
               Repetições:{" "}
               <input
+                id={id}
                 className="w-20 text-center"
                 type="number"
                 placeholder={reps}
                 value={reps}
                 name="reps"
-                onChange={onChangeHandler}
+                onChange={onChange}
               />
             </div>
             <div className={`${!editMode ? "" : "hidden"}`}>
@@ -79,24 +90,26 @@ function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
             <div className={`${editMode ? "" : "hidden"}`}>
               Sets:{" "}
               <input
+                id={id}
                 className="w-20 text-center"
                 type="number"
                 placeholder={sets}
                 value={sets}
                 name="sets"
-                onChange={onChangeHandler}
+                onChange={onChange}
               />
             </div>
             <div className={`${!editMode ? "" : "hidden"}`}>Sets: {sets}</div>
             <div className={`${editMode ? "" : "hidden"}`}>
               Descanço:{" "}
               <input
+                id={id}
                 className="w-20 text-center"
                 type="number"
                 placeholder={restInterval}
                 value={restInterval}
                 name="restInterval"
-                onChange={onChangeHandler}
+                onChange={onChange}
               />{" "}
               s
             </div>
@@ -109,7 +122,7 @@ function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
           className={`flex justify-center items-center p-2 bg-green-100 hover:bg-green-400 text-gray-500 hover:text-black rounded-tr-lg rounded-br-lg ${
             editMode ? "" : "hidden"
           }`}
-          onClick={() => setEditMode(false)}
+          onClick={() => editChangeHandle(false)}
         >
           <div className="flex-1">
             <CheckIcon width={30} height={30} />
@@ -119,7 +132,7 @@ function ExerciseInput({ name, number, weight, reps, sets, restInterval }) {
           className={`flex justify-center items-center p-2 bg-green-100 hover:bg-green-400 text-gray-500 hover:text-black ${
             !editMode ? "" : "hidden"
           }`}
-          onClick={() => setEditMode(true)}
+          onClick={() => editChangeHandle(true)}
         >
           <div className="flex-1">
             <PencilIcon height={20} />

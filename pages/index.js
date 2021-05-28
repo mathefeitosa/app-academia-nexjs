@@ -11,7 +11,7 @@ import { PlusIcon } from "@heroicons/react/outline";
 export default function Home({ session }) {
   if (!session) return <Login />;
 
-  const workouts = [
+  const save = [
     {
       id: 0,
       letter: "...",
@@ -46,11 +46,11 @@ export default function Home({ session }) {
 
   const exerciseChangeHandler = (event) => {
     event.preventDefault();
-    const { name, value } = event.target;
-    
-    workouts.filter((workout) => workout.id === selectedWorkoutID).map((workout) => (workout)}
-
-
+    const { id, value, name } = event.target.id;
+    var _workout = workouts.filter((w) => w.id === selectedWorkoutID);
+    var _exercises = _workout[0].exercises;
+    var e = _exercises.filter((e) => e.id === id);
+    console.log(e);
   };
 
   return (
@@ -91,7 +91,8 @@ export default function Home({ session }) {
                     <div className="space-y-4 ml-8 mr-8 mt-3 mb-1">
                       <div>
                         <ExerciseInput
-                          key={exercise.number}
+                          id={exercise.id}
+                          key={exercise.id}
                           name={exercise.name}
                           number={exercise.number}
                           weight={exercise.weight}
