@@ -7,7 +7,11 @@ function WorkoutSelector(props) {
       <div className="m-5 grid grid-cols-3 gap-3 flex-grow justify-center items-center">
         {props.workouts.map((workout) => (
           <div key={workout.id} className="flex items-center justify-center">
-            <Button key={workout.id} workout={workout} props={props} />
+            <Button
+              key={workout.id}
+              workout={workout}
+              setSelectedWorkoutID={props.setSelectedWorkoutID}
+            />
           </div>
         ))}
       </div>

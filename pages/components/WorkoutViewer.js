@@ -1,13 +1,13 @@
 import { PlusIcon } from "@heroicons/react/outline";
 import Exercise from "./Exercise";
-function WorkoutViewer({ selectedWorkout }) {
+function WorkoutViewer({ workout }) {
   return (
     <div>
       <div className="text-center font-bold mt-4">
-        {selectedWorkout?.letter ? <p>Treino {selectedWorkout?.letter}</p> : ""}
+        {workout.letter ? <p>Treino {workout.letter}</p> : ""}
       </div>
       <div className="space-y-2 ml-8 mr-8 mt-3 mb-1">
-        {selectedWorkout?.exercises?.map((exercise) => (
+        {workout.exercises.map((exercise) => (
           <Exercise
             key={exercise.number}
             number={exercise.number}

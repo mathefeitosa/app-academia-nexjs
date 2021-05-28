@@ -10,17 +10,30 @@ import { db } from "../firebase";
 export default function Home({ session }) {
   if (!session) return <Login />;
 
-  const [workouts, setWorkouts] = useState([]);
-  const [selectedWorkout, setselectedWorkout] = useState({});
+  const [workouts, setWorkouts] = useState([
+    {
+      id: 0,
+      letter: "...",
+      exercises: [
+        {
+          number: 0,
+          restInterval: 0,
+          resp: 0,
+          sets: 0,
+          weight: 0,
+          name: "",
+        },
+      ],
+    },
+  ]);
+  const [selectedWorkoutID, setSelectedWorkoutID] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await db.collection("workouts").get();
       setWorkouts(data.docs.map((doc) => doc.data()));
     };
-    fetchData()?.setselectedWorkout;
-    setselectedWorkout(workouts[0]);
-    console.log(selectedWorkout);
+    fetchData();
   }, []);
 
   return (
@@ -36,7 +49,7 @@ export default function Home({ session }) {
             <div className="flex">
               <UserBox />
               <WorkoutSelector
-                setselectedWorkout={setselectedWorkout}
+                setSelectedWorkoutID={setSelectedWorkoutID}
                 workouts={workouts}
               />
             </div>
@@ -47,7 +60,11 @@ export default function Home({ session }) {
         </div>
 
         <div className="-mt-8 shadow-md bg-gray-300 rounded-br-lg rounded-bl-lg border-t-2 rounded-tr-3xl rounded-tl-3xl pb-1">
-          <WorkoutViewer selectedWorkout={selectedWorkout} />
+          {workouts
+            .filter((workout) => workout.id === selectedWorkoutID)
+            .map((array) => (
+              <WorkoutViewer workout={array} />
+            ))}
         </div>
       </div>
     </div>
