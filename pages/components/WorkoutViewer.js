@@ -1,6 +1,14 @@
 import { PlusIcon } from "@heroicons/react/outline";
+import { useState } from "react";
 import Exercise from "./Exercise";
+import ExerciseInput from "./ExerciseInput";
 function WorkoutViewer({ workout }) {
+  const [editMode, setEditMode] = useState(true);
+
+  const changeEditMode = () => {
+    setEditMode(!editMode);
+  };
+
   return (
     <div>
       <div className="text-center font-bold mt-4">
@@ -8,15 +16,35 @@ function WorkoutViewer({ workout }) {
       </div>
       <div className="space-y-2 ml-8 mr-8 mt-3 mb-1">
         {workout.exercises.map((exercise) => (
-          <Exercise
-            key={exercise.number}
-            number={exercise.number}
-            name={exercise.name}
-            weight={exercise.weight}
-            reps={exercise.reps}
-            sets={exercise.sets}
-            restInterval={exercise.restInterval}
-          />
+          <div>
+            {editMode ? (
+              <ExerciseInput
+                number={exercise.number}
+                name={exercise.name}
+                weight={exercise.weight}
+                reps={exercise.reps}
+                sets={exercise.sets}
+                restInterval={exercise.restInterval}
+                changeEditMode={changeEditMode}
+              />
+            ) : (
+              ""
+            )}
+            {!editMode ? (
+              <Exercise
+                key={exercise.number}
+                number={exercise.number}
+                name={exercise.name}
+                weight={exercise.weight}
+                reps={exercise.reps}
+                sets={exercise.sets}
+                restInterval={exercise.restInterval}
+                changeEditMode={changeEditMode}
+              />
+            ) : (
+              ""
+            )}
+          </div>
         ))}
         <div className="flex justify-center">
           <PlusIcon

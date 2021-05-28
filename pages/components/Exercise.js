@@ -3,34 +3,18 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import ExerciseInput from "./ExerciseInput";
 
-function Exercise({ number, name, weight, reps, sets, restInterval }) {
-  const [editMode, setEditMode] = useState(false);
-
-  const changeEditMode = () => {
-    setEditMode(!editMode);
-  };
-
+function Exercise({
+  number,
+  name,
+  weight,
+  reps,
+  sets,
+  restInterval,
+  changeEditMode,
+}) {
   return (
     <div>
-      {" "}
-      {editMode ? (
-        <ExerciseInput
-          number={number}
-          name={name}
-          weight={weight}
-          reps={reps}
-          sets={sets}
-          restInterval={restInterval}
-          changeEditMode={changeEditMode}
-        />
-      ) : (
-        ""
-      )}
-      <div
-        className={`flex justify-center text-white transform ease-in hover:scale-105  transition duration-100 ${
-          editMode ? "hidden" : ""
-        }`}
-      >
+      <div className="flex justify-center text-white transform ease-in hover:scale-105  transition duration-100">
         <div className="p-2 bg-gray-900 rounded-tl-lg rounded-bl-lg text-2xl font-bold">
           {number}
         </div>
