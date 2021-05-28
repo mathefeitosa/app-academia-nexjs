@@ -5,7 +5,7 @@ import WorkoutSelector from "./components/WorkoutSelector";
 import Login from "./components/Login";
 import WorkoutAdder from "./components/WorkoutAdder";
 import { db } from "../firebase";
-import ExerciseInput from "./components/ExerciseInput";
+import Exercise from "./components/Exercise";
 import { PlusIcon } from "@heroicons/react/outline";
 
 export default function Home({ session }) {
@@ -46,10 +46,11 @@ export default function Home({ session }) {
 
   const exerciseChangeHandler = (event) => {
     event.preventDefault();
-    const { id, value, name } = event.target.id;
-    var _workout = workouts.filter((w) => w.id === selectedWorkoutID);
-    var _exercises = _workout[0].exercises;
-    var e = _exercises.filter((e) => e.id === id);
+    const { id, value, name } = event.target;
+    var w = workouts.filter((w) => w.id === selectedWorkoutID);
+    var es = w[0].exercises;
+    var e = es.filter((e) => e.id === id);
+
     console.log(e);
   };
 
@@ -90,7 +91,7 @@ export default function Home({ session }) {
                   <div>
                     <div className="space-y-4 ml-8 mr-8 mt-3 mb-1">
                       <div>
-                        <ExerciseInput
+                        <Exercise
                           id={exercise.id}
                           key={exercise.id}
                           name={exercise.name}
