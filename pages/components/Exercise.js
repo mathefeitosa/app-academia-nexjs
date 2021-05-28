@@ -27,12 +27,7 @@ function Exercise({
             <div>Descanço: {restInterval} s</div>
           </div>
         </div>
-        <div
-          className="flex justify-center items-center p-2 bg-green-100 hover:bg-green-400 text-gray-500 hover:text-black"
-          onClick={() => {
-            changeEditMode();
-          }}
-        >
+        <div className="flex justify-center items-center p-2 bg-green-100 hover:bg-green-400 text-gray-500 hover:text-black">
           <div className="flex-1">
             <PencilIcon height={20} />
           </div>

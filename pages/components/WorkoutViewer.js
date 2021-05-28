@@ -1,49 +1,22 @@
 import { PlusIcon } from "@heroicons/react/outline";
-import { useState } from "react";
-import Exercise from "./Exercise";
 import ExerciseInput from "./ExerciseInput";
-function WorkoutViewer({ workout }) {
-  const [editMode, setEditMode] = useState(true);
-
-  const changeEditMode = () => {
-    setEditMode(!editMode);
-  };
-
+function WorkoutViewer(props) {
   return (
     <div>
       <div className="text-center font-bold mt-4">
-        {workout.letter ? <p>Treino {workout.letter}</p> : ""}
+        {props.workout.letter ? <p>Treino {props.workout.letter}</p> : ""}
       </div>
-      <div className="space-y-2 ml-8 mr-8 mt-3 mb-1">
-        {workout.exercises.map((exercise) => (
+      <div className="space-y-4 ml-8 mr-8 mt-3 mb-1">
+        {props.workout.exercises.map((exercise) => (
           <div>
-            {editMode ? (
-              <ExerciseInput
-                number={exercise.number}
-                name={exercise.name}
-                weight={exercise.weight}
-                reps={exercise.reps}
-                sets={exercise.sets}
-                restInterval={exercise.restInterval}
-                changeEditMode={changeEditMode}
-              />
-            ) : (
-              ""
-            )}
-            {!editMode ? (
-              <Exercise
-                key={exercise.number}
-                number={exercise.number}
-                name={exercise.name}
-                weight={exercise.weight}
-                reps={exercise.reps}
-                sets={exercise.sets}
-                restInterval={exercise.restInterval}
-                changeEditMode={changeEditMode}
-              />
-            ) : (
-              ""
-            )}
+            <ExerciseInput
+              number={exercise.number}
+              name={exercise.name}
+              weight={exercise.weight}
+              reps={exercise.reps}
+              sets={exercise.sets}
+              restInterval={exercise.restInterval}
+            />
           </div>
         ))}
         <div className="flex justify-center">
