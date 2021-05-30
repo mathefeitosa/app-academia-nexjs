@@ -11,6 +11,80 @@ import { PlusIcon } from "@heroicons/react/outline";
 export default function Home({ session }) {
   if (!session) return <Login />;
 
+  const test = {
+    A: {
+      letter: "A",
+      exercises: {
+        1: {
+          number: 1,
+          restInterval: 45,
+          resp: 10,
+          sets: 3,
+          weight: 25,
+          name: "Puxada aberta no pulley",
+        },
+        2: {
+          number: 2,
+          restInterval: 45,
+          resp: 10,
+          sets: 3,
+          weight: 25,
+          name: "Remada com corda na polia alta",
+        },
+        3: {
+          number: 3,
+          restInterval: 45,
+          resp: 10,
+          sets: 3,
+          weight: 25,
+          name: "Voardor dorsal",
+        },
+      },
+    },
+    B: {
+      letter: "B",
+      exercises: {
+        1: {
+          number: 1,
+          restInterval: 45,
+          resp: 10,
+          sets: 3,
+          weight: 25,
+          name: "Stiff",
+        },
+        2: {
+          number: 2,
+          restInterval: 45,
+          resp: 10,
+          sets: 3,
+          weight: 25,
+          name: "Cadeira adutora",
+        },
+        3: {
+          number: 3,
+          restInterval: 45,
+          resp: 10,
+          sets: 3,
+          weight: 25,
+          name: "Cadeira abdutora",
+        },
+      },
+    },
+    C: {
+      letter: "C",
+      exercises: {
+        1: {
+          number: 1,
+          restInterval: 45,
+          resp: 10,
+          sets: 3,
+          weight: 12,
+          name: "Elevação lateral",
+        },
+      },
+    },
+  };
+
   const save = [
     {
       id: 0,
@@ -31,18 +105,16 @@ export default function Home({ session }) {
   //fetching workouts data from firestore
   useEffect(() => {
     const fetchData = async () => {
-      const data = await db.collection("workouts").get();
+      const data = await db.collection("workouts_test").get();
       var workoutsData = data.docs.map((doc) => doc.data());
-      setWorkouts([]);
       setWorkouts(workoutsData);
-      console.log(workoutsData);
     };
     fetchData();
   }, []);
 
   //setting up workouts state
-  const [workouts, setWorkouts] = useState(save);
-  const [selectedWorkoutID, setSelectedWorkoutID] = useState(1);
+  const [workouts, setWorkouts] = useState({});
+  const [selectedWorkoutLetter, setSelectedWorkoutLetter] = useState("A");
 
   const exerciseChangeHandler = (event) => {
     event.preventDefault();
@@ -50,8 +122,11 @@ export default function Home({ session }) {
     var w = workouts.filter((w) => w.id === selectedWorkoutID);
     var es = w[0].exercises;
     var e = es.filter((e) => e.id === id);
-
-    console.log(e);
+    var en = e[0];
+    //var property = value;
+    //console.log(test["A"].exercises["1"]);
+    db.collection("workouts_test").doc().set(test);
+    //setWorkouts({workouts:[workouts[""]]})
   };
 
   return (
@@ -67,7 +142,7 @@ export default function Home({ session }) {
             <div className="flex">
               <UserBox />
               <WorkoutSelector
-                setSelectedWorkoutID={setSelectedWorkoutID}
+                selectedWorkoutLetter={selectedWorkoutLetter}
                 workouts={workouts}
               />
             </div>
@@ -78,43 +153,39 @@ export default function Home({ session }) {
         </div>
 
         <div className="-mt-8 shadow-md bg-gray-300 rounded-br-lg rounded-bl-lg border-t-2 rounded-tr-3xl rounded-tl-3xl pb-1">
-          {/* FILTER FOR THE SELECTED WORKOUT */}
-          {workouts
-            ?.filter((workout) => workout.id === selectedWorkoutID)
-            ?.map((workout) => (
+          {/* FILTER FOR THE SELECTED WORKOUT
+          <div>
+            <div className="text-center font-bold mt-4">
+              {workout.letter ? <p>Treino {workout.letter}</p> : ""}
+            </div>
+            {workout.exercises.map((exercise) => (
               <div>
-                <div className="text-center font-bold mt-4">
-                  {workout.letter ? <p>Treino {workout.letter}</p> : ""}
-                </div>
-                {/* PASS THROUGHT THE EXERCISES */}
-                {workout.exercises.map((exercise) => (
+                <div className="space-y-4 ml-8 mr-8 mt-3 mb-1">
                   <div>
-                    <div className="space-y-4 ml-8 mr-8 mt-3 mb-1">
-                      <div>
-                        <Exercise
-                          id={exercise.id}
-                          key={exercise.id}
-                          name={exercise.name}
-                          number={exercise.number}
-                          weight={exercise.weight}
-                          reps={exercise.reps}
-                          sets={exercise.sets}
-                          restInterval={exercise.restInterval}
-                          onChange={exerciseChangeHandler}
-                        />
-                      </div>
-                    </div>
+                    <Exercise
+                      id={exercise.id}
+                      key={exercise.id}
+                      name={exercise.name}
+                      number={exercise.number}
+                      weight={exercise.weight}
+                      reps={exercise.reps}
+                      sets={exercise.sets}
+                      restInterval={exercise.restInterval}
+                      onChange={exerciseChangeHandler}
+                    />
                   </div>
-                ))}
-                <div className="flex justify-center">
-                  <PlusIcon
-                    width={30}
-                    height={30}
-                    className="m-1 text-gray-500 hover:text-gray-400"
-                  />
                 </div>
               </div>
             ))}
+            <div className="flex justify-center">
+              <PlusIcon
+                width={30}
+                height={30}
+                className="m-1 text-gray-500 hover:text-gray-400"
+              />
+            </div>
+          </div>
+          ))} */}
         </div>
       </div>
     </div>
