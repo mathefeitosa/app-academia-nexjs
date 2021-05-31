@@ -1,50 +1,65 @@
 import { useRef } from "react";
 import { db } from "../../firebase";
 
-function WorkoutAdder() {
-  const inputRef = useRef(null);
+function WorkoutAdder({ user, reloadDatabase }) {
+  const nameInputRef = useRef(null);
+  const letterInputRef = useRef(null);
 
+  //Adds workout and refresh the db
   const addWorkout = (e) => {
+    //checking if is empty
     e.preventDefault();
+    if (!nameInputRef.current.value) return;
 
-    if (!inputRef.current.value) return;
-
-    db.collection("workouts").add({
-      letter: inputRef.current.value,
-      exercises: [
-        {
-          number: 1,
-          name: "",
-          weight: 0, //in kilograms
-          reps: 0,
-          sets: 0,
-          restInterval: 0, //in seconds
-        },
-      ],
+    db.collection("_workouts").add({
+      user_id: user.id,
+      letter: letterInputRef.current.value,
+      exercise_ids: [],
+      name: nameInputRef.current.value,
     });
 
-    inputRef.current.value = "";
+    nameInputRef.current.value = "";
+    letterInputRef.current.value = "";
+    reloadDatabase();
   };
 
   return (
     <div>
-      <form className="inline-flex items-center" action="" method="post">
-        <div className="flex-1 space-x-3">
-          <input
-            ref={inputRef}
-            className="p-1 inline-flex ml-5 bg-white-600 outline-none flex-shrink rounded-tl-md rounded-bl"
-            type="text"
-            name=""
-            placeholder="Nome do treino"
-          />
+      <form
+        className="flex flex-col border-black justify-center items-center text-center"
+        action=""
+        method="post"
+      >
+        <div className="flex">
+          <div>
+            <div className="flex flex-col">
+              <input
+                ref={letterInputRef}
+                className="p-1 ml-5 bg-white-600 outline-none rounded-tl-md rounded-bl"
+                type="text"
+                name=""
+                maxLength={1}
+                placeholder="Letra do Treino (Ex.: A)"
+              />
+            </div>
+            <input
+              ref={nameInputRef}
+              className="p-1 ml-5 bg-white-600 outline-none rounded-tl-md rounded-bl"
+              type="text"
+              name=""
+              placeholder="Nome do treino"
+            />
+          </div>
+          <div className="flex">
+            <button
+              onClick={addWorkout}
+              className="flex-1 p-1 rounded-tr-md rounded-br-md bg-gray-500"
+              type="submit"
+            >
+              Adicionar
+            </button>
+          </div>
         </div>
-        <button
-          onClick={addWorkout}
-          className="inline-flex p-1 rounded-tr-md rounded-br-md bg-gray-500"
-          type="submit"
-        >
-          Adicionar
-        </button>
       </form>
     </div>
   );
