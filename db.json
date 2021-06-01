@@ -1,84 +1,111 @@
 {
+  "users": [
+    {
+      "id": 4291995644185826
+    }
+  ],
+  "exercises": [
+    {
+      "id": "A1",
+      "workoutId": 0,
+      "number": 1,
+      "sets": 3,
+      "restInterval": 45,
+      "name": "Agachamento Terra",
+      "weight": 30,
+      "reps": 10
+    },
+    {
+      "id": "B1",
+      "workoutId": 1,
+      "number": 1,
+      "restInterval": 45,
+      "reps": 10,
+      "sets": 3,
+      "weight": 30,
+      "name": "Supino Reto"
+    },
+    {
+      "id": "B2",
+      "workoutId": 1,
+      "number": 2,
+      "name": "Leg Press 45º",
+      "reps": 10,
+      "restInterval": 45,
+      "weight": 30,
+      "sets": 3
+    },
+    {
+      "id": "C1",
+      "workoutId": 2,
+      "number": 1,
+      "weight": 30,
+      "name": "Supino Reto",
+      "reps": 10,
+      "sets": 3,
+      "restInterval": 45
+    },
+    {
+      "id": "C2",
+      "workoutId": 2,
+      "number": 2,
+      "sets": 3,
+      "restInterval": 45,
+      "name": "Leg Press 45º",
+      "reps": 10,
+      "weight": 30
+    },
+    {
+      "id": "A1",
+      "workoutId": 0,
+      "number": 1,
+      "sets": 3,
+      "restInterval": 45,
+      "name": "Supino Reto",
+      "weight": 30,
+      "reps": 10
+    },
+    {
+      "id": "A1",
+      "workoutId": 0,
+      "number": 2,
+      "name": "Leg Press 45º",
+      "sets": 3,
+      "weight": 30,
+      "reps": 10,
+      "restInterval": 45
+    },
+    {
+      "id": "B3",
+      "workoutId": 1,
+      "number": 3,
+      "weight": 30,
+      "sets": 3,
+      "name": "Leg Press 45º",
+      "restInterval": 45,
+      "reps": 10
+    }
+  ],
   "workouts": [
     {
       "id": 3,
-      "letter": "D",
-      "exercises": [
-        {
-          "number": 1,
-          "restInterval": 45,
-          "reps": 10,
-          "sets": 3,
-          "weight": 30,
-          "name": "Supino Reto"
-        },
-        {
-          "name": "Leg Press 45º",
-          "reps": 10,
-          "restInterval": 45,
-          "weight": 30,
-          "sets": 3,
-          "number": 2
-        }
-      ]
+      "userId": 4291995644185826,
+      "letter": "D"
     },
     {
       "id": 2,
-      "exercises": [
-        {
-          "weight": 30,
-          "number": 1,
-          "name": "Supino Reto",
-          "reps": 10,
-          "sets": 3,
-          "restInterval": 45
-        },
-        {
-          "sets": 3,
-          "number": 2,
-          "restInterval": 45,
-          "name": "Leg Press 45º",
-          "reps": 10,
-          "weight": 30
-        }
-      ],
+      "userId": 4291995644185826,
       "letter": "C"
     },
     {
       "id": 0,
-      "letter": "A",
-      "exercises": [
-        {
-          "sets": 3,
-          "restInterval": 45,
-          "name": "Supino Reto",
-          "weight": 30,
-          "reps": 10,
-          "number": 1
-        },
-        {
-          "number": 2,
-          "name": "Leg Press 45º",
-          "sets": 3,
-          "weight": 30,
-          "reps": 10,
-          "restInterval": 45
-        }
-      ]
+      "userId": 4291995644185826,
+      "letter": "A"
     },
     {
       "id": 1,
-      "letter": "B",
-      "exercises": [
-        {
-          "weight": 30,
-          "sets": 3,
-          "name": "Leg Press 45º",
-          "number": 1,
-          "restInterval": 45,
-          "reps": 10
-        }
-      ]
+      "userId": 4291995644185826,
+      "letter": "B"
     }
   ]
 }

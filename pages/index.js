@@ -1,58 +1,42 @@
 import { useState, useEffect } from "react";
-import { getSession } from "next-auth/client";
+import { getSession, session } from "next-auth/client";
 import UserBox from "./components/UserBox";
 import WorkoutSelector from "./components/WorkoutSelector";
 import Login from "./components/Login";
-import WorkoutAdder from "./components/WorkoutAdder";
-import { db } from "../firebase";
-import Exercise from "./components/Exercise";
-import { PlusIcon } from "@heroicons/react/outline";
+
+import ExercisesViewer from "./components/ExercisesViewer";
 
 export default function Home({ session }) {
   if (!session) return <Login />;
 
-  const save = [
-    {
-      id: 0,
-      letter: "...",
-      exercises: [
-        {
-          number: 0,
-          restInterval: 0,
-          resp: 0,
-          sets: 0,
-          weight: 0,
-          name: "",
-        },
-      ],
-    },
-  ];
+  const [updateAll, setUpdateAll] = useState(false);
 
   //fetching workouts data from firestore
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await db.collection("workouts").get();
-      var workoutsData = data.docs.map((doc) => doc.data());
-      setWorkouts([]);
-      setWorkouts(workoutsData);
-      console.log(workoutsData);
+    var url =
+      "http://localhost:5000/users/" +
+      session.user.id +
+      "/workouts?_sort=letter&_order=asc";
+    const getData = () => {
+      fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (json) {
+          setWorkouts(json);
+        });
     };
-    fetchData();
-  }, []);
+    getData();
+  }, [updateAll]);
 
   //setting up workouts state
-  const [workouts, setWorkouts] = useState(save);
-  const [selectedWorkoutID, setSelectedWorkoutID] = useState(1);
-
-  const exerciseChangeHandler = (event) => {
-    event.preventDefault();
-    const { id, value, name } = event.target;
-    var w = workouts.filter((w) => w.id === selectedWorkoutID);
-    var es = w[0].exercises;
-    var e = es.filter((e) => e.id === id);
-
-    console.log(e);
-  };
+  const [workouts, setWorkouts] = useState([]);
+  const [selectedId, setSelectedId] = useState(0);
 
   return (
     <div className="bg-white justify-center flex">
@@ -67,54 +51,22 @@ export default function Home({ session }) {
             <div className="flex">
               <UserBox />
               <WorkoutSelector
-                setSelectedWorkoutID={setSelectedWorkoutID}
+                setSelectedId={setSelectedId}
                 workouts={workouts}
               />
             </div>
             <div className="pb-10 flex justify-center">
-              <WorkoutAdder />
+              {/* <WorkoutAdder /> */}
             </div>
           </div>
         </div>
 
         <div className="-mt-8 shadow-md bg-gray-300 rounded-br-lg rounded-bl-lg border-t-2 rounded-tr-3xl rounded-tl-3xl pb-1">
-          {/* FILTER FOR THE SELECTED WORKOUT */}
-          {workouts
-            ?.filter((workout) => workout.id === selectedWorkoutID)
-            ?.map((workout) => (
-              <div>
-                <div className="text-center font-bold mt-4">
-                  {workout.letter ? <p>Treino {workout.letter}</p> : ""}
-                </div>
-                {/* PASS THROUGHT THE EXERCISES */}
-                {workout.exercises.map((exercise) => (
-                  <div>
-                    <div className="space-y-4 ml-8 mr-8 mt-3 mb-1">
-                      <div>
-                        <Exercise
-                          id={exercise.id}
-                          key={exercise.id}
-                          name={exercise.name}
-                          number={exercise.number}
-                          weight={exercise.weight}
-                          reps={exercise.reps}
-                          sets={exercise.sets}
-                          restInterval={exercise.restInterval}
-                          onChange={exerciseChangeHandler}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <div className="flex justify-center">
-                  <PlusIcon
-                    width={30}
-                    height={30}
-                    className="m-1 text-gray-500 hover:text-gray-400"
-                  />
-                </div>
-              </div>
-            ))}
+          <ExercisesViewer
+            workouts={workouts}
+            selectedId={selectedId}
+            setUpdateAll={setUpdateAll}
+          />
         </div>
       </div>
     </div>
