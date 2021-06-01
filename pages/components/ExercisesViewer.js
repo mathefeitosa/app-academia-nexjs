@@ -23,7 +23,7 @@ function ExercisesViewer({ selectedId, setUpdateAll }) {
           setExercises(json);
         });
 
-      //getting workouts
+      //getting specific workout.
       fetch("http://localhost:5000/workouts/" + selectedId, {
         headers: {
           "Content-Type": "application/json",

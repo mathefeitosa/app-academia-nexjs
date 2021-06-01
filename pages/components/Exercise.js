@@ -28,7 +28,7 @@ function ExerciseInput({ number, selectedId, e, workoutLetter, setUpdateAll }) {
         });
     };
     getData();
-  }, [selectedId]);
+  }, [selectedId, e.number]);
 
   const onChange = (event) => {
     event.preventDefault();
@@ -36,6 +36,7 @@ function ExerciseInput({ number, selectedId, e, workoutLetter, setUpdateAll }) {
       ...exercise,
       [event.target.name]: event.target.value,
     });
+    console.log(exercise);
   };
 
   const editChangeHandle = (value) => {
